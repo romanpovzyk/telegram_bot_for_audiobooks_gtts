@@ -1,5 +1,5 @@
 from gtts import gTTS
-from bot_messages import messages_convert, messages_ready
+from bot_messages import messages_convert, messages_ready, start_messages
 from config import tg_bot_token
 import telebot
 import datetime
@@ -12,12 +12,9 @@ lang = ''
 @bot.message_handler(content_types=['text'])
 def start_message(message):
     if message.text == "/start":
-        bot.send_message(message.from_user.id, """Привіт, хочу конвертувати тобі книгу.
-                                               /uk — українською,
-                                               /en — для тексту англійською,
-                                               /ru — для тексту російською,""")
+        bot.send_message(message.from_user.id, start_messages['pos'])
     else:
-        bot.send_message(message.from_user.id, "Не розумію тебе, введи /start")
+        bot.send_message(message.from_user.id, start_messages['neg'])
     bot.register_next_step_handler(message, get_lang)
 
 
