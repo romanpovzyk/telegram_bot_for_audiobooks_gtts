@@ -4,45 +4,53 @@ from config import tg_bot_token
 import telebot
 import datetime
 
-# bot = telebot.TeleBot(tg_bot_token)
-#
-# @bot.message_handler(commands=['start'])
-# def start_command(message):
-#     bot.send_message(message.chat.id, 'Привіт, я — книжковий джин.\nДозволь конвертувати для тебе аудіокнижку.')
-#
-# @bot.message_handler(commands=['add_text'])
-# def _command_(message):
-#      bot.send_message(message.chat.id, "Введіть свій текст: ")
-#      bot.register_next_step_handler(message, add_user)
-#
-# bot.polling()
+bot = telebot.TeleBot(tg_bot_token)
+
+lang = ''
 
 
-text = input('Введіть сюди ваш текст: \n')
-lang = input("Оберіть одну із трьох мов uk/en/ru: ")
+@bot.message_handler(content_types=['text'])
+def start_message(message):
+    if message.text == "/start":
+        bot.send_message(message.from_user.id, """Привіт, хочу конвертувати тобі книгу.
+                                               /uk — українською,
+                                               /en — для тексту англійською,
+                                               /ru — для тексту російською,""")
+    else:
+        bot.send_message(message.from_user.id, "Не розумію тебе, введи /start")
+    bot.register_next_step_handler(message, get_lang)
 
 
-# Безпека на випадок неправильного введення
-while lang != 'uk' and lang != 'en' and lang != 'ru':
-    print('Ми не можемо визначити вашу мову.')
-
-    lang = input("Оберіть одну із семи мов uk/en/ru: ")
-
-    #  Пропуск на випадок правильного введення
-    if lang == 'uk' or lang == 'en' or lang == 'ru':
-        print('Дякуємо за ваш вибір!')
-
-
-def convert(text):
-    print(messages_convert[lang])
-    obj = gTTS(text, lang=lang)
-    obj.save('audiobook.mp3')
+def get_lang(message):
+    if message.text == "/uk":
+        bot.send_message(message.from_user.id, "Дякую за вибір української мови. Надішли текст.")
+    elif message.text == "/en":
+        bot.send_message(message.from_user.id, "Дякую за вибір англійської мови. Надішли текст.")
+    elif message.text == "/ru":
+        bot.send_message(message.from_user.id, "Дякую за вибір російської мови. Надішли текст.")
+    else:
+        bot.send_message(message.from_user.id, "Не розумію тебе, введи /uk або /en або /ru")
+    global lang
+    lang = message.text[1:]
+    bot.register_next_step_handler(message, get_audio)
 
 
-# Визначаємо час, витрачений на конвертування.
-date_start = datetime.datetime.now()
-convert(text)
-date_end = datetime.datetime.now()
-convert_time = date_end - date_start
+def convert(message):
+    obj = gTTS(message, lang=lang)
+    obj.save('audiobook_for_you.mp3')
 
-print(f"{messages_ready[lang]} \n{convert_time}")
+
+def get_audio(message):
+    if len(message.text) > 6:
+        bot.send_message(message.from_user.id, 'Дякую, текст отримав.')
+        date_start = datetime.datetime.now()
+        convert(message.text)
+        date_end = datetime.datetime.now()
+        convert_time = date_end - date_start
+        bot.send_message(message.from_user.id, f"Твій текст готовий. На це пішло {convert_time}")
+    audio = open('audiobook_for_you.mp3', 'rb')
+    bot.send_audio(message.chat.id, audio)
+    audio.close()
+
+
+bot.polling(none_stop=True, interval=0)
