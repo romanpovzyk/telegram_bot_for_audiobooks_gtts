@@ -1,10 +1,10 @@
 from gtts import gTTS
 from bot_messages import messages
-from config import tg_bot_token
+# from config import tg_bot_token
 import telebot
 import datetime
 
-bot = telebot.TeleBot(tg_bot_token)
+bot = telebot.TeleBot('1952440948:AAEv2sXDF-nb0rR-CtCpTPJRJczGmLOqcGE')
 
 lang = ''
 
