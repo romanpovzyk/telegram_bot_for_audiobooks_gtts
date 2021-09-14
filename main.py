@@ -9,32 +9,28 @@ bot = telebot.TeleBot(tg_bot_token)
 lang = ''
 
 
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(commands=['start'])
 def start_message(message):
-    if message.text == "/start":
-        bot.send_message(message.from_user.id, messages['start_messages']['greeting'])
-    else:
-        bot.send_message(message.from_user.id, messages['start_messages']['unknown'])
-    bot.register_next_step_handler(message, get_lang)
+    bot.send_message(message.from_user.id, messages['general']['start'])
 
 
+@bot.message_handler(commands=['uk', 'en', 'ru'])
 def get_lang(message):
-    if message.text == "/uk":
-        bot.send_message(message.from_user.id, messages['thanks_messages']['uk'])
-    elif message.text == "/en":
-        bot.send_message(message.from_user.id, messages['thanks_messages']['en'])
-    elif message.text == "/ru":
-        bot.send_message(message.from_user.id, messages['thanks_messages']['ru'])
-    else:
-        bot.send_message(message.from_user.id, messages['thanks_messages']['unknown'])
     global lang
     lang = message.text[1:]
+    bot.send_message(message.from_user.id, messages[lang]['thanks'])
     bot.register_next_step_handler(message, get_audio)
+
+
+@bot.message_handler(commands=['help'])
+def start_message(message):
+    bot.send_message(message.from_user.id, messages['general']['help'])
 
 
 def get_audio(message):
     if len(message.text) > 6:
-        bot.send_message(message.from_user.id, messages['received_text'])
+        bot.send_message(message.from_user.id, messages[lang]['received_text'])
+
         date_start = datetime.datetime.now()
 
         obj = gTTS(message.text, lang=lang)
@@ -43,13 +39,15 @@ def get_audio(message):
         obj.save(file_name)
 
         date_end = datetime.datetime.now()
-        convert_time = date_end - date_start
-        bot.send_message(message.from_user.id, f"{messages['text_with_time']} {convert_time}")
+
+        bot.send_message(message.from_user.id, f"{messages[lang]['text_with_time']} {date_end - date_start}")
+
         audio = open(file_name, 'rb')
         bot.send_audio(message.chat.id, audio)
         audio.close()
-    elif len(message.text) <= 6:
-        bot.send_message(message.from_user.id, messages['short_text'])
+
+    else:
+        bot.send_message(message.from_user.id, messages[lang]['short_text'])
 
 
 bot.polling(none_stop=True, interval=0)
