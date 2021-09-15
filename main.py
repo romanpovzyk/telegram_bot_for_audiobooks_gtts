@@ -9,23 +9,17 @@ bot = telebot.TeleBot(tg_bot_token)
 lang = ''
 
 
-# @bot.message_handler(commands=['start'])
-# def start_message(message):
-#     bot.send_message(message.from_user.id, messages['general']['start'])
-#     keyboard = telebot.types.ReplyKeyboardMarkup(True)
-#     keyboard.row('Привет', 'Пока')
-
 @bot.message_handler(commands=['start'])
 def start_message(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
-    keyboard.row('Привет', 'Пока')
-    bot.send_message(message.chat.id, 'Привет!', reply_markup=keyboard)
+    keyboard.row('/start', '/uk', '/en', '/ru', '/help')
+    bot.send_message(message.chat.id, messages['general']['start'], reply_markup=keyboard)
 
 
 @bot.message_handler(commands=['uk', 'en', 'ru'])
 def get_lang(message):
     global lang
-    lang = message.text[1:]
+    lang = message.text[1:3]
     bot.send_message(message.from_user.id, messages[lang]['thanks'])
     bot.register_next_step_handler(message, get_audio)
 
