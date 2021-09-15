@@ -12,7 +12,7 @@ lang = ''
 @bot.message_handler(commands=['start'])
 def start_message(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(True)
-    keyboard.row('/start', '/uk', '/en', '/ru', '/help')
+    keyboard.row('/uk', '/en', '/ru')
     bot.send_message(message.chat.id, messages['general']['start'], reply_markup=keyboard)
 
 
