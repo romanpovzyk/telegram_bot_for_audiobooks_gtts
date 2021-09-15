@@ -9,9 +9,17 @@ bot = telebot.TeleBot(tg_bot_token)
 lang = ''
 
 
+# @bot.message_handler(commands=['start'])
+# def start_message(message):
+#     bot.send_message(message.from_user.id, messages['general']['start'])
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True)
+#     keyboard.row('Привет', 'Пока')
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.from_user.id, messages['general']['start'])
+    keyboard = telebot.types.ReplyKeyboardMarkup(True)
+    keyboard.row('Привет', 'Пока')
+    bot.send_message(message.chat.id, 'Привет!', reply_markup=keyboard)
 
 
 @bot.message_handler(commands=['uk', 'en', 'ru'])
