@@ -66,7 +66,7 @@ This session is over. Press /start for a new attempt.
 """,
         'command_mistake': """
 Это команда, а не текст.
-Эта сессия закончилась. Нажми / start для новой попытки.
+Эта сессия закончилась. Нажми /start для новой попытки.
 """
     }
 }
