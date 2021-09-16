@@ -24,7 +24,10 @@ messages = {
         'text_with_time': """
 Твій текст готовий. 
 На це пішло""",
-        'short_text': 'Текст замалий для начитки'
+        'short_text': """
+Текст замалий для начитки.
+Надішли більшe 6 знаків (або тисни /start для нової сесії).
+"""
     },
     'en': {
         'thanks': """
@@ -35,7 +38,10 @@ Please send your text.
         'text_with_time': """
 Your text is ready. 
 It took""",
-        'short_text': 'The text is too small to read'
+        'short_text': """
+The text is too small to read.
+Send more than 6 characters (or press /start for new session).
+"""
     },
     'ru': {
         'thanks': """
@@ -46,6 +52,9 @@ It took""",
         'text_with_time': """
 Твой текст готов. 
 На это ушло""",
-        'short_text': 'Текст слишком короткий для начитки'
+        'short_text': """
+Текст слишком короткий для начитки.
+Пришли текст большe 6 знаков (или жми /start для новой сесии).
+"""
     }
 }

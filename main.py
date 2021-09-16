@@ -28,8 +28,9 @@ def get_lang(message):
 def start_message(message):
     bot.send_message(message.from_user.id, messages['general']['help'])
 
-
 def get_audio(message):
+    while len(message.text) < 6:
+        bot.send_message(message.from_user.id, messages[lang]['short_text'])
     if len(message.text) > 6:
         bot.send_message(message.from_user.id, messages[lang]['received_text'])
 
@@ -47,9 +48,6 @@ def get_audio(message):
         audio = open(file_name, 'rb')
         bot.send_audio(message.chat.id, audio)
         audio.close()
-
-    else:
-        bot.send_message(message.from_user.id, messages[lang]['short_text'])
 
 
 bot.polling(none_stop=True, interval=0)
