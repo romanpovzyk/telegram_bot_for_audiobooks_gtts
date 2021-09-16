@@ -38,7 +38,7 @@ def get_audio(message):
         obj = gTTS(message.text, lang=lang)
         date_name = str(date_start).replace(':', '_')
         file_name = f'audiobook_for_you_{date_name}.mp3'
-        obj.save(f'{lang}/{file_name}')
+        obj.save(file_name)
 
         date_end = datetime.datetime.now()
 
