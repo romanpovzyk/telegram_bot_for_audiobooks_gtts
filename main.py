@@ -30,9 +30,9 @@ def start_message(message):
 
 
 def get_audio(message):
-    if len(message.text) < 6 and message.text[0] == '/':
+    if len(message.text) < 7 and message.text[0] == '/':
         bot.send_message(message.from_user.id, messages[lang]['command_mistake'])
-    elif len(message.text) < 6:
+    elif len(message.text) < 7:
         bot.send_message(message.from_user.id, messages[lang]['short_text'])
     else:
         bot.send_message(message.from_user.id, messages[lang]['received_text'])
