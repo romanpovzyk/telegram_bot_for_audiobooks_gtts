@@ -27,6 +27,10 @@ messages = {
         'short_text': """
 Текст замалий для начитки.
 Надішли більшe 6 знаків (або тисни /start для нової сесії).
+""",
+        'command_mistake': """
+Це команда, а не текст.
+Надішли більшe 6 знаків (або тисни /start для нової сесії).
 """
     },
     'en': {
@@ -40,6 +44,10 @@ Your text is ready.
 It took""",
         'short_text': """
 The text is too small to read.
+Send more than 6 characters (or press /start for new session).
+""",
+        'command_mistake': """
+This is a command, not a text.
 Send more than 6 characters (or press /start for new session).
 """
     },
@@ -55,6 +63,10 @@ Send more than 6 characters (or press /start for new session).
         'short_text': """
 Текст слишком короткий для начитки.
 Пришли текст большe 6 знаков (или жми /start для новой сесии).
+""",
+        'command_mistake': """
+Это команда, а не текст.
+Надішли більшe 6 знаків (або тисни /start для нової сесії).
 """
     }
 }

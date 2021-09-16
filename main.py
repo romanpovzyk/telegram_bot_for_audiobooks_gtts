@@ -28,10 +28,13 @@ def get_lang(message):
 def start_message(message):
     bot.send_message(message.from_user.id, messages['general']['help'])
 
+
 def get_audio(message):
-    while len(message.text) < 6:
+    if len(message.text) < 6 and message.text[0] == '/':
+        bot.send_message(message.from_user.id, messages[lang]['command_mistake'])
+    elif len(message.text) < 6:
         bot.send_message(message.from_user.id, messages[lang]['short_text'])
-    if len(message.text) > 6:
+    else:
         bot.send_message(message.from_user.id, messages[lang]['received_text'])
 
         date_start = datetime.datetime.now()
